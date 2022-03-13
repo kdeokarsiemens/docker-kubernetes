@@ -1,0 +1,1 @@
+{"version":3,"file":"component---src-pages-index-js-8902af6cc527edf9ea34.js","mappings":"8KAEe,SAASA,IAEtB,OAAO","sources":["webpack://kaustubhdeokar/./src/pages/index.js"],"sourcesContent":["import React from \"react\"\n\nexport default function Home(){\n\n  return <div>Hello World!</div>\n  \n}"],"names":["Home"],"sourceRoot":""}

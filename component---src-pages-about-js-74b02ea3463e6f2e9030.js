@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkkaustubhdeokar=self.webpackChunkkaustubhdeokar||[]).push([[682],{465:function(e,t,u){u.r(t);var a=u(294),n=u(597);t.default=function(){return a.createElement(a.Fragment,null,a.createElement("div",null,"About page"),a.createElement(n.rU,{to:"/"},"Back to home"))}}}]);
+//# sourceMappingURL=component---src-pages-about-js-74b02ea3463e6f2e9030.js.map
