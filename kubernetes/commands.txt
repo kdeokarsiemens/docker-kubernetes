@@ -1,0 +1,91 @@
+nano namespace.yaml
+
+>> kubectl apply -f namespace.yaml
+namespace/development created
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+
+>> kubectl apply -f namespace.yaml
+namespace/development unchanged
+namespace/production created
+
+>> kubectl delete -f namespace.yaml
+namespace "development" deleted
+namespace "production" deleted
+
+------------------------------------
+Deployment
+
+>> kubectl get pods -n development
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod-info-deployment-7587d5cc86-gzfdl   1/1     Running   0          5h2m
+
+>> kubectl delete pod pod-info-deployment-7587d5cc86-gzfdl -n development
+pod "pod-info-deployment-7587d5cc86-gzfdl" deleted
+
+>> kubectl get pods -n development (new pod is spun off automatically by kubernetes)
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod-info-deployment-7587d5cc86-m7nbx   1/1     Running   0          43s
+
+------------------------------------
+Information about the state of a pod
+
+>> kubectl describe pod <pod-name> -n <namespace>
+
+
+------------------------------------
+To verify if a pod is running.
+
+Setting up a busybox pod. (in default namespace)
+>> kubectl apply -f busybox.yaml
+
+>> kubectl get pods
+NAME                       READY   STATUS              RESTARTS   AGE
+busybox-74b7c48b46-5rpn4   0/1     ContainerCreating   0          10s
+
+>> kubectl get pods -n development -o wide
+NAME                                   READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+pod-info-deployment-7587d5cc86-m7nbx   1/1     Running   0          10m   10.244.0.6   minikube   <none>           <none>
+
+We need to get inside the busybox pod to verify if pod is running.
+>> kubectl exec -it busybox-74b7c48b46-5rpn4 -- /bin/sh
+
+-it is interactive terminal.
+/bin/sh - open shell.
+
+>> wget 10.244.0.6:3000
+gives us a index.html file stating environment variables set during deployment.
+
+------------------------------------
+
+Logs from a pod 
+
+>>kubectl logs pod-info-deployment-7587d5cc86-m7nbx -n development
+undefined
+Example app listening on port 3000
+
+------------------------------------
+
+Make a service accessible to internet.
+>> minikube tunnel
+
+>> kubectl get services -n development
+
+NAME           TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)        AGE
+demo-service   LoadBalancer   10.101.65.46   10.101.65.46   80:30746/TCP   16s
+
+------------------------------------
+
+Deleting resources created from a certain file.
+>> kubectl delete -f <file>.yaml
+
+Advisable to delete namespace.yaml at last.
